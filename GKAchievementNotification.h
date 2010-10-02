@@ -37,15 +37,15 @@
 @interface GKAchievementNotification : UIView
 {
     GKAchievementDescription  *_achievement;
-    
+
     NSString *_message;  /**< Optional custom achievement message. */
-    
+
     UIImageView  *_background;
     UIImageView  *_logo;
-    
+
     UILabel      *_textLabel;
     UILabel      *_detailLabel;
-    
+
     id<GKAchievementHandlerDelegate> _handlerDelegate;
 }
 

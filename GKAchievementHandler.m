@@ -26,11 +26,11 @@ static GKAchievementHandler *defaultHandler = nil;
     {
         [notification setImage:self.image];
     }
-    else 
+    else
     {
         [notification setImage:nil];
     }
-    
+
     [_topView addSubview:notification];
     [notification animateIn];
 }
@@ -50,7 +50,7 @@ static GKAchievementHandler *defaultHandler = nil;
 - (id)init
 {
     self = [super init];
-    if (self != nil) 
+    if (self != nil)
     {
         _topView = [[UIApplication sharedApplication] keyWindow];
         _queue = [[NSMutableArray alloc] initWithCapacity:0];
@@ -71,7 +71,7 @@ static GKAchievementHandler *defaultHandler = nil;
     GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithAchievementDescription:achievement] autorelease];
     notification.frame = kGKAchievementFrameStart;
     notification.handlerDelegate = self;
-    
+
     [_queue addObject:notification];
     if ([_queue count] == 1)
     {
@@ -84,7 +84,7 @@ static GKAchievementHandler *defaultHandler = nil;
     GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithMessage:message] autorelease];
     notification.frame = kGKAchievementFrameStart;
     notification.handlerDelegate = self;
-    
+
     [_queue addObject:notification];
     if ([_queue count] == 1)
     {

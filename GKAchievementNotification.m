@@ -74,9 +74,9 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame 
+- (id)initWithFrame:(CGRect)frame
 {
-    if ((self = [super initWithFrame:frame])) 
+    if ((self = [super initWithFrame:frame]))
     {
         // create the GK background
         UIImage *backgroundStretch = [[UIImage imageNamed:@"gk-notification.png"] stretchableImageWithLeftCapWidth:8.0f topCapHeight:0.0f];
@@ -87,10 +87,10 @@
         self.opaque = NO;
         [tBackground release];
         [self addSubview:self.background];
-        
+
         CGRect r1 = kGKAchievementText1;
         CGRect r2 = kGKAchievementText2;
-        
+
         // create the text label
         UILabel *tTextLabel = [[UILabel alloc] initWithFrame:r1];
         tTextLabel.textAlignment = UITextAlignmentCenter;
@@ -100,7 +100,7 @@
         tTextLabel.text = NSLocalizedString(@"Achievement Unlocked", @"Achievemnt Unlocked Message");
         self.textLabel = tTextLabel;
         [tTextLabel release];
-        
+
         // detail label
         UILabel *tDetailLabel = [[UILabel alloc] initWithFrame:r2];
         tDetailLabel.textAlignment = UITextAlignmentCenter;
@@ -109,7 +109,7 @@
         tDetailLabel.backgroundColor = [UIColor clearColor];
         tDetailLabel.textColor = [UIColor whiteColor];
         tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
-        
+
         if (self.achievement)
         {
             tDetailLabel.text = self.achievement.achievedDescription;
@@ -121,7 +121,7 @@
 
         self.detailLabel = tDetailLabel;
         [tDetailLabel release];
-        
+
         [self addSubview:self.textLabel];
         [self addSubview:self.detailLabel];
     }
@@ -168,7 +168,7 @@
         self.textLabel.frame = kGKAchievementText1WLogo;
         self.detailLabel.frame = kGKAchievementText2WLogo;
     }
-    else 
+    else
     {
         if (self.logo)
         {
@@ -180,17 +180,17 @@
 
 }
 
-- (void)dealloc 
+- (void)dealloc
 {
     NSLog(@"dealloc: GKAchievementNotification");
-    
+
     self.handlerDelegate = nil;
-    
+
     [_background release];
     [_textLabel release];
     [_detailLabel release];
     [_logo release];
-    
+
     [super dealloc];
 }
 
