@@ -21,6 +21,6 @@
 + (GKAchievementHandler *)defaultHandler;
 
 - (void)notifyAchievement:(GKAchievementDescription *)achievement;
-- (void)notifyAchievementMessage:(NSString *)message;
+- (void)notifyAchievementTitle:(NSString *)title andMessage:(NSString *)message;
 
 @end

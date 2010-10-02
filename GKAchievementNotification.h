@@ -39,6 +39,7 @@
     GKAchievementDescription  *_achievement;
 
     NSString *_message;  /**< Optional custom achievement message. */
+    NSString *_title;    /**< Optional custom achievement title. */
 
     UIImageView  *_background;
     UIImageView  *_logo;
@@ -51,6 +52,7 @@
 
 @property (nonatomic, retain) GKAchievementDescription  *achievement;
 @property (nonatomic, retain) NSString *message;
+@property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) UIImageView *background;
 @property (nonatomic, retain) UIImageView *logo;
 @property (nonatomic, retain) UILabel *textLabel;
@@ -58,7 +60,7 @@
 @property (nonatomic, retain) id<GKAchievementHandlerDelegate>  handlerDelegate;
 
 - (id)initWithAchievementDescription:(GKAchievementDescription *)achievement;
-- (id)initWithMessage:(NSString *)message;
+- (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
 - (void)animateIn;
 - (void)animateOut;
 - (void)setImage:(UIImage *)image;

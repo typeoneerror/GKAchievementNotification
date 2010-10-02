@@ -52,6 +52,7 @@
 @synthesize detailLabel=_detailLabel;
 @synthesize logo=_logo;
 @synthesize message=_message;
+@synthesize title=_title;
 @synthesize textLabel=_textLabel;
 
 - (id)initWithAchievementDescription:(GKAchievementDescription *)achievement
@@ -64,9 +65,10 @@
     return self;
 }
 
-- (id)initWithMessage:(NSString *)message
+- (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
 {
     CGRect frame = kGKAchievementDefaultSize;
+    self.title = title;
     self.message = message;
     if (self = [self initWithFrame:frame])
     {
@@ -109,18 +111,25 @@
         tDetailLabel.backgroundColor = [UIColor clearColor];
         tDetailLabel.textColor = [UIColor whiteColor];
         tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
-
-        if (self.achievement)
-        {
-            tDetailLabel.text = self.achievement.achievedDescription;
-        }
-        else if (self.message)
-        {
-            tDetailLabel.text = self.message;
-        }
-
         self.detailLabel = tDetailLabel;
         [tDetailLabel release];
+        
+        if (self.achievement)
+        {
+            self.textLabel.text = self.achievement.title;
+            self.detailLabel.text = self.achievement.achievedDescription;
+        }
+        else
+        {
+            if (self.title)
+            {
+                self.textLabel.text = self.title;
+            }
+            if (self.message)
+            {
+                self.detailLabel.text = self.message;
+            }
+        }
 
         [self addSubview:self.textLabel];
         [self addSubview:self.detailLabel];
@@ -186,10 +195,13 @@
 
     self.handlerDelegate = nil;
 
+    [_achievement release];
     [_background release];
-    [_textLabel release];
     [_detailLabel release];
     [_logo release];
+    [_message release];
+    [_textLabel release];
+    [_title release];
 
     [super dealloc];
 }

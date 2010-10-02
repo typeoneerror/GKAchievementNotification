@@ -22,7 +22,7 @@ GKAchievementDescription *achievement = [[GKAchievementDescription alloc] init];
 You can also use custom messages instead of a GKAchievementDescription object:
 
 <pre>
-[[GKAchievementHandler defaultHandler] notifyAchievementMessage:@"Earned 100 points online."];
+[[GKAchievementHandler defaultHandler] notifyAchievementTitle:@"High Roller" andMessage:@"Earned 100 points online."];
 </pre>
 
 Customization

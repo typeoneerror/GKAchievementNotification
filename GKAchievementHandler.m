@@ -79,9 +79,9 @@ static GKAchievementHandler *defaultHandler = nil;
     }
 }
 
-- (void)notifyAchievementMessage:(NSString *)message
+- (void)notifyAchievementTitle:(NSString *)title andMessage:(NSString *)message
 {
-    GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithMessage:message] autorelease];
+    GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithTitle:title andMessage:message] autorelease];
     notification.frame = kGKAchievementFrameStart;
     notification.handlerDelegate = self;
 
