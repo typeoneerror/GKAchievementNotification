@@ -50,14 +50,14 @@
     id<GKAchievementHandlerDelegate> _handlerDelegate;
 }
 
-@property (nonatomic, retain) GKAchievementDescription  *achievement;
+@property (nonatomic, retain) GKAchievementDescription *achievement;
 @property (nonatomic, retain) NSString *message;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) UIImageView *background;
 @property (nonatomic, retain) UIImageView *logo;
 @property (nonatomic, retain) UILabel *textLabel;
 @property (nonatomic, retain) UILabel *detailLabel;
-@property (nonatomic, retain) id<GKAchievementHandlerDelegate>  handlerDelegate;
+@property (nonatomic, retain) id<GKAchievementHandlerDelegate> handlerDelegate;
 
 - (id)initWithAchievementDescription:(GKAchievementDescription *)achievement;
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;

@@ -113,7 +113,7 @@
         tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
         self.detailLabel = tDetailLabel;
         [tDetailLabel release];
-        
+
         if (self.achievement)
         {
             self.textLabel.text = self.achievement.title;
