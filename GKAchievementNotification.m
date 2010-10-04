@@ -194,6 +194,7 @@
     NSLog(@"dealloc: GKAchievementNotification");
 
     self.handlerDelegate = nil;
+    self.logo = nil;
 
     [_achievement release];
     [_background release];
