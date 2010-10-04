@@ -186,7 +186,6 @@
         self.textLabel.frame = kGKAchievementText1;
         self.detailLabel.frame = kGKAchievementText2;
     }
-
 }
 
 - (void)dealloc
