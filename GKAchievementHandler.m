@@ -12,11 +12,15 @@
 
 static GKAchievementHandler *defaultHandler = nil;
 
+#pragma mark -
+
 @interface GKAchievementHandler(private)
 
 - (void)displayNotification:(GKAchievementNotification *)notification;
 
 @end
+
+#pragma mark -
 
 @implementation GKAchievementHandler(private)
 
@@ -37,9 +41,13 @@ static GKAchievementHandler *defaultHandler = nil;
 
 @end
 
+#pragma mark -
+
 @implementation GKAchievementHandler
 
 @synthesize image=_image;
+
+#pragma mark -
 
 + (GKAchievementHandler *)defaultHandler
 {
@@ -65,6 +73,8 @@ static GKAchievementHandler *defaultHandler = nil;
     [_image release];
     [super dealloc];
 }
+
+#pragma mark -
 
 - (void)notifyAchievement:(GKAchievementDescription *)achievement
 {

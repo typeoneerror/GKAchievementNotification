@@ -9,6 +9,8 @@
 #import <GameKit/GameKit.h>
 #import "GKAchievementNotification.h"
 
+#pragma mark -
+
 @interface GKAchievementNotification(private)
 
 - (void)animationInDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
@@ -16,6 +18,8 @@
 - (void)delegateCallback:(SEL)selector withObject:(id)object;
 
 @end
+
+#pragma mark -
 
 @implementation GKAchievementNotification(private)
 
@@ -44,6 +48,8 @@
 
 @end
 
+#pragma mark -
+
 @implementation GKAchievementNotification
 
 @synthesize achievement=_achievement;
@@ -54,6 +60,8 @@
 @synthesize message=_message;
 @synthesize title=_title;
 @synthesize textLabel=_textLabel;
+
+#pragma mark -
 
 - (id)initWithAchievementDescription:(GKAchievementDescription *)achievement
 {
@@ -137,6 +145,27 @@
     return self;
 }
 
+- (void)dealloc
+{
+    NSLog(@"dealloc: GKAchievementNotification");
+    
+    self.handlerDelegate = nil;
+    self.logo = nil;
+    
+    [_achievement release];
+    [_background release];
+    [_detailLabel release];
+    [_logo release];
+    [_message release];
+    [_textLabel release];
+    [_title release];
+    
+    [super dealloc];
+}
+
+
+#pragma mark -
+
 - (void)animateIn
 {
     [self delegateCallback:@selector(willShowAchievementNotification:) withObject:self];
@@ -186,24 +215,6 @@
         self.textLabel.frame = kGKAchievementText1;
         self.detailLabel.frame = kGKAchievementText2;
     }
-}
-
-- (void)dealloc
-{
-    NSLog(@"dealloc: GKAchievementNotification");
-
-    self.handlerDelegate = nil;
-    self.logo = nil;
-
-    [_achievement release];
-    [_background release];
-    [_detailLabel release];
-    [_logo release];
-    [_message release];
-    [_textLabel release];
-    [_title release];
-
-    [super dealloc];
 }
 
 @end
