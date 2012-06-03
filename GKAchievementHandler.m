@@ -35,7 +35,13 @@ static GKAchievementHandler *defaultHandler = nil;
         [notification setImage:nil];
     }
 
-    [_topView addSubview:notification];
+    /** when in landscape mode, adding notification view to the topview is the easiest way to get the nofitication displayed in landscape mode instead of setting view.transform manually */
+    if(_keyWindow.rootViewController) {
+        [_keyWindow.rootViewController.view addSubview:notification];
+    }
+    else {
+        [_keyWindow addSubview:notification];
+    }
     [notification animateIn];
 }
 
@@ -60,7 +66,7 @@ static GKAchievementHandler *defaultHandler = nil;
     self = [super init];
     if (self != nil)
     {
-        _topView = [[UIApplication sharedApplication] keyWindow];
+        _keyWindow = [[UIApplication sharedApplication] keyWindow];
         _queue = [[NSMutableArray alloc] initWithCapacity:0];
         self.image = [UIImage imageNamed:@"gk-icon.png"];
     }
@@ -69,17 +75,16 @@ static GKAchievementHandler *defaultHandler = nil;
 
 - (void)dealloc
 {
-    [_queue release];
-    [_image release];
-    [super dealloc];
+//    [_queue release];
+//    [_image release];
+ //   [super dealloc];
 }
 
 #pragma mark -
 
 - (void)notifyAchievement:(GKAchievementDescription *)achievement
 {
-    GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithAchievementDescription:achievement] autorelease];
-    notification.frame = kGKAchievementFrameStart;
+    GKAchievementNotification *notification = [[GKAchievementNotification alloc] initWithAchievementDescription:achievement];
     notification.handlerDelegate = self;
 
     [_queue addObject:notification];
@@ -91,10 +96,30 @@ static GKAchievementHandler *defaultHandler = nil;
 
 - (void)notifyAchievementTitle:(NSString *)title andMessage:(NSString *)message
 {
-    GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithTitle:title andMessage:message] autorelease];
-    notification.frame = kGKAchievementFrameStart;
+    GKAchievementNotification *notification = [[GKAchievementNotification alloc] initWithTitle:title andMessage:message];
     notification.handlerDelegate = self;
 
+    [_queue addObject:notification];
+    if ([_queue count] == 1)
+    {
+        [self displayNotification:notification];
+    }
+}
+
+- (void)notifyAchievementTitleAndIcon:(NSString *)title andMessage:(NSString *)message withIcon:(UIImage*)icon {
+    GKAchievementNotification *notification = [[GKAchievementNotification alloc] initWithTitle:title andMessage:message];
+    
+    notification.handlerDelegate = self;
+    [notification setImage:icon];
+    
+    [_queue addObject:notification];
+    if ([_queue count] == 1)
+    {
+        [self displayNotification:notification];
+    }
+}
+
+- (void)notifyAchievementTitleAndIcon:(GKAchievementNotification*)notification {
     [_queue addObject:notification];
     if ([_queue count] == 1)
     {
