@@ -61,11 +61,41 @@
 @synthesize title=_title;
 @synthesize textLabel=_textLabel;
 
+@synthesize position=_position;
+@synthesize iconPosition=_iconPosition;
+@synthesize size=_size;
+@synthesize iconSize=_iconSize;
+@synthesize titleSize=_titleSize;
+@synthesize descriptionSize=_descriptionSize;
+@synthesize backgroundStrech=_backgroundStretch;
+@synthesize titlePosition=_titlePosition;
+@synthesize descriptionPosition=_descriptionPosition;
+
+@synthesize backgroundImage=_backgroundImage;
+
 #pragma mark -
 
 - (id)initWithAchievementDescription:(GKAchievementDescription *)achievement
 {
-    CGRect frame = kGKAchievementDefaultSize;
+    CGRect screen = [[UIScreen mainScreen] bounds];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        _size = kGKAchievementDefaultiPadSize;
+    }
+    else {
+        _size = kGKAchievementDefaultiPhoneSize;
+    }
+    
+    if(![self isLandscapeView]) {
+        _position.x = screen.size.width / 2 - _size.width / 2;
+    } else {
+        _position.x = screen.size.height / 2 - _size.width / 2;
+    }
+    
+    _position.y = 10.f;
+    CGRect frame = CGRectMake(_position.x, 
+                              _position.y, 
+                              _size.width, 
+                              _size.height);
     self.achievement = achievement;
     if ((self = [self initWithFrame:frame]))
     {
@@ -75,10 +105,30 @@
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
 {
-    CGRect frame = kGKAchievementDefaultSize;
+    CGRect screen = [[UIScreen mainScreen] bounds];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        _size = kGKAchievementDefaultiPadSize;
+    }
+    else {
+        _size = kGKAchievementDefaultiPhoneSize;
+    }
+    
+    /* deal with landscape modes */
+    if(![self isLandscapeView]) {
+        _position.x = screen.size.width / 2 - _size.width / 2;
+    } else {
+        _position.x = screen.size.height / 2 - _size.width / 2;
+    }
+    
+    _position.y = 10.f;
+    CGRect frame = CGRectMake(_position.x, 
+                              _position.y, 
+                              _size.width, 
+                              _size.height);
     self.title = title;
     self.message = message;
-    if ((self == [self initWithFrame:frame]))
+    if (self == [self initWithFrame:frame])
     {
     }
     return self;
@@ -88,61 +138,74 @@
 {
     if ((self = [super initWithFrame:frame]))
     {
-        // create the GK background
-        UIImage *backgroundStretch = [[UIImage imageNamed:@"gk-notification.png"] stretchableImageWithLeftCapWidth:8.0f topCapHeight:0.0f];
-        UIImageView *tBackground = [[UIImageView alloc] initWithFrame:frame];
-        tBackground.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        tBackground.image = backgroundStretch;
-        self.background = tBackground;
-        self.opaque = NO;
-        [tBackground release];
-        [self addSubview:self.background];
+        _iconPosition = CGPointMake(7.0f, 6.0f);
+        _iconSize = CGSizeMake(34.f, 34.f);
+        
+        _titlePosition = CGPointMake(10.f, 6.f);
+        _titleSize = CGSizeMake(_size.width - _titlePosition.x * 2, 
+                                22.f);
 
-        CGRect r1 = kGKAchievementText1;
-        CGRect r2 = kGKAchievementText2;
-
-        // create the text label
-        UILabel *tTextLabel = [[UILabel alloc] initWithFrame:r1];
-        tTextLabel.textAlignment = UITextAlignmentCenter;
-        tTextLabel.backgroundColor = [UIColor clearColor];
-        tTextLabel.textColor = [UIColor whiteColor];
-        tTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
-        tTextLabel.text = NSLocalizedString(@"Achievement Unlocked", @"Achievemnt Unlocked Message");
-        self.textLabel = tTextLabel;
-        [tTextLabel release];
-
-        // detail label
-        UILabel *tDetailLabel = [[UILabel alloc] initWithFrame:r2];
-        tDetailLabel.textAlignment = UITextAlignmentCenter;
-        tDetailLabel.adjustsFontSizeToFitWidth = YES;
-        tDetailLabel.minimumFontSize = 10.0f;
-        tDetailLabel.backgroundColor = [UIColor clearColor];
-        tDetailLabel.textColor = [UIColor whiteColor];
-        tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
-        self.detailLabel = tDetailLabel;
-        [tDetailLabel release];
-
-        if (self.achievement)
-        {
-            self.textLabel.text = self.achievement.title;
-            self.detailLabel.text = self.achievement.achievedDescription;
-        }
-        else
-        {
-            if (self.title)
-            {
-                self.textLabel.text = self.title;
-            }
-            if (self.message)
-            {
-                self.detailLabel.text = self.message;
-            }
-        }
-
-        [self addSubview:self.textLabel];
-        [self addSubview:self.detailLabel];
+        _descriptionPosition = CGPointMake(10.f, 20.f);        
+        _descriptionSize = CGSizeMake(_size.width - _titlePosition.x * 2, 
+                                      22.f);
+        
+        _backgroundStretch = CGPointMake(8.0f, 0.f);
     }
     return self;
+}
+
+- (void)setupContent {
+    [self setBackgroundImage:kGKAchievementDefaultBackground];
+    
+    CGRect r1 = CGRectMake(_titlePosition.x, 
+                           _titlePosition.y, 
+                           _titleSize.width, 
+                           _titleSize.height);
+    CGRect r2 = CGRectMake(_descriptionPosition.x,
+                           _descriptionPosition.y,
+                           _descriptionSize.width, 
+                           _descriptionSize.height);
+    
+    // create the text label
+    UILabel *tTextLabel = [[UILabel alloc] initWithFrame:r1];
+    tTextLabel.textAlignment = UITextAlignmentCenter;
+    tTextLabel.backgroundColor = [UIColor clearColor];
+    tTextLabel.textColor = [UIColor whiteColor];
+    tTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
+    tTextLabel.text = NSLocalizedString(@"Achievement Unlocked", @"Achievemnt Unlocked Message");
+    self.textLabel = tTextLabel;
+    //       [tTextLabel release];
+    
+    // detail label
+    UILabel *tDetailLabel = [[UILabel alloc] initWithFrame:r2];
+    tDetailLabel.textAlignment = UITextAlignmentCenter;
+    tDetailLabel.adjustsFontSizeToFitWidth = YES;
+    tDetailLabel.minimumFontSize = 10.0f;
+    tDetailLabel.backgroundColor = [UIColor clearColor];
+    tDetailLabel.textColor = [UIColor whiteColor];
+    tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
+    self.detailLabel = tDetailLabel;
+    //        [tDetailLabel release];
+    
+    if (self.achievement)
+    {
+        self.textLabel.text = self.achievement.title;
+        self.detailLabel.text = self.achievement.achievedDescription;
+    }
+    else
+    {
+        if (self.title)
+        {
+            self.textLabel.text = self.title;
+        }
+        if (self.message)
+        {
+            self.detailLabel.text = self.message;
+        }
+    }
+    
+    [self addSubview:self.textLabel];
+    [self addSubview:self.detailLabel];
 }
 
 - (void)dealloc
@@ -152,15 +215,15 @@
     self.handlerDelegate = nil;
     self.logo = nil;
     
-    [_achievement release];
-    [_background release];
-    [_detailLabel release];
-    [_logo release];
-    [_message release];
-    [_textLabel release];
-    [_title release];
+//    [_achievement release];
+//    [_background release];
+ //   [_detailLabel release];
+//    [_logo release];
+//    [_message release];
+//    [_textLabel release];
+//    [_title release];
     
-    [super dealloc];
+//    [super dealloc];
 }
 
 
@@ -168,13 +231,28 @@
 
 - (void)animateIn
 {
+    /* first setup contents with configuration */
+    [self setupContent];
+    
+    self.frame = CGRectMake(_position.x, 
+                            -self.size.height - 1, 
+                            _size.width, 
+                            _size.height);
+    
     [self delegateCallback:@selector(willShowAchievementNotification:) withObject:self];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:kGKAchievementAnimeTime];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
-    self.frame = kGKAchievementFrameEnd;
+    
+    [self shouldAutorotateToInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+
+    
+    self.frame = CGRectMake(_position.x, 
+                            _position.y, 
+                            _size.width, 
+                            _size.height);
     [UIView commitAnimations];
 }
 
@@ -186,8 +264,15 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationOutDidStop:finished:context:)];
-    self.frame = kGKAchievementFrameStart;
+    self.frame = CGRectMake(_position.x, 
+                            -self.size.height - 1, 
+                            _size.width, 
+                            _size.height);
     [UIView commitAnimations];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
 }
 
 - (void)setImage:(UIImage *)image
@@ -196,15 +281,33 @@
     {
         if (!self.logo)
         {
-            UIImageView *tLogo = [[UIImageView alloc] initWithFrame:CGRectMake(7.0f, 6.0f, 34.0f, 34.0f)];
+            UIImageView *tLogo = [[UIImageView alloc] initWithFrame:CGRectMake(_iconPosition.x,
+                                                                               _iconPosition.y,
+                                                                               _iconSize.width,
+                                                                               _iconSize.height)];
             tLogo.contentMode = UIViewContentModeCenter;
             self.logo = tLogo;
-            [tLogo release];
+ //           [tLogo release];
             [self addSubview:self.logo];
         }
         self.logo.image = image;
-        self.textLabel.frame = kGKAchievementText1WLogo;
-        self.detailLabel.frame = kGKAchievementText2WLogo;
+        
+        _titlePosition = CGPointMake(10.f + _iconSize.width + _iconPosition.x, 6.f);
+        _titleSize = CGSizeMake(_size.width - _titlePosition.x - 10.f, 
+                                22.f);
+        
+        _descriptionPosition = CGPointMake(10.f + _iconSize.width + _iconPosition.x, 20.f);        
+        _descriptionSize = CGSizeMake(_size.width - _titlePosition.x - 10.f, 
+                                      22.f);
+        
+        self.textLabel.frame = CGRectMake(_titlePosition.x, 
+                                          _titlePosition.y, 
+                                          _titleSize.width, 
+                                          _titleSize.height);;
+        self.detailLabel.frame = CGRectMake(_descriptionPosition.x,
+                                            _descriptionPosition.y,
+                                            _descriptionSize.width, 
+                                            _descriptionSize.height);;
     }
     else
     {
@@ -212,9 +315,65 @@
         {
             [self.logo removeFromSuperview];
         }
-        self.textLabel.frame = kGKAchievementText1;
-        self.detailLabel.frame = kGKAchievementText2;
+        
+        _titlePosition = CGPointMake(10.f, 6.f);
+        _titleSize = CGSizeMake(_size.width - _titlePosition.x - 10.f, 
+                                22.f);
+        
+        _descriptionPosition = CGPointMake(10.f, 20.f);        
+        _descriptionSize = CGSizeMake(_size.width - _titlePosition.x - 10.f, 
+                                      22.f);
+        
+        self.textLabel.frame = CGRectMake(_titlePosition.x, 
+                                          _titlePosition.y, 
+                                          _titleSize.width, 
+                                          _titleSize.height);
+        self.detailLabel.frame = CGRectMake(_descriptionPosition.x,
+                                            _descriptionPosition.y,
+                                            _descriptionSize.width, 
+                                            _descriptionSize.height);
     }
+}
+
+- (BOOL)isLandscapeView {
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    return orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight;
+}
+
+- (void)setPosition:(CGPoint)position {
+    _position = position;
+}
+
+- (void)setIconSize:(CGSize)iconSize {
+    _iconSize = iconSize;
+    if(_size.height < iconSize.height) 
+        _size.height = _iconSize.height + 18.f;
+}
+
+- (void)setSize:(CGSize)size {
+    _size = size;
+    
+    _titlePosition = CGPointMake(10.f, 6.f);
+    _titleSize = CGSizeMake(_size.width - _titlePosition.x * 2, 
+                            22.f);
+    
+    _descriptionPosition = CGPointMake(10.f, 20.f);        
+    _descriptionSize = CGSizeMake(_size.width - _titlePosition.x * 2, 
+                                  22.f);
+}
+
+- (void)setBackgroundImage:(NSString *)background {
+    _backgroundImage = [[UIImage imageNamed:background] stretchableImageWithLeftCapWidth:_backgroundStretch.x topCapHeight:_backgroundStretch.y];
+    UIImageView *tBackground = [[UIImageView alloc] initWithFrame: CGRectMake(0.f, 
+                                                                              0.f, 
+                                                                              _size.width, 
+                                                                              _size.height)];
+    tBackground.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    tBackground.image = _backgroundImage;
+    self.background = tBackground;
+    self.opaque = NO;
+    //   [tBackground release];
+    [self addSubview:self.background];
 }
 
 @end

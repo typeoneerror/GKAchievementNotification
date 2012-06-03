@@ -20,7 +20,7 @@
  */
 @interface GKAchievementHandler : NSObject <GKAchievementHandlerDelegate>
 {
-    UIView         *_topView;  /**< Reference to top view of UIApplication. */
+    UIWindow         *_keyWindow;  /**< Reference to top view of UIApplication. */
     NSMutableArray *_queue;    /**< Queue of achievement notifiers to display. */
     UIImage        *_image;    /**< Logo to display in notifications. */
 }
@@ -46,5 +46,18 @@
  * @param message  Description of the achievement.
  */
 - (void)notifyAchievementTitle:(NSString *)title andMessage:(NSString *)message;
+
+/**
+ * Show an achievement notification with a message manually added.
+ * @param title    The title of the achievement.
+ * @param message  Description of the achievement.
+ * @param icon     Icon of the achievement
+ */
+- (void)notifyAchievementTitleAndIcon:(NSString *)title andMessage:(NSString *)message withIcon:(UIImage*)icon;
+
+/**
+ * Show an user configured achievement notification
+ */
+- (void)notifyAchievementTitleAndIcon:(GKAchievementNotification*)notification;
 
 @end
