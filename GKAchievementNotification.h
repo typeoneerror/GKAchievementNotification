@@ -195,6 +195,6 @@
 /*
  * Set the background image
  */
-- (void)setBackgroundImage:(NSString*)background;
+- (void)setCustomBackgroundImage:(NSString*)background;
 
 @end

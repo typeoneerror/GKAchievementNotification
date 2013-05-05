@@ -41,7 +41,10 @@
     {
         if ([self.handlerDelegate respondsToSelector:selector])
         {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             [self.handlerDelegate performSelector:selector withObject:object];
+#pragma clang diagnostic pop
         }
     }
 }
@@ -155,7 +158,7 @@
 }
 
 - (void)setupContent {
-    [self setBackgroundImage:kGKAchievementDefaultBackground];
+    [self setCustomBackgroundImage:kGKAchievementDefaultBackground];
     
     CGRect r1 = CGRectMake(_titlePosition.x, 
                            _titlePosition.y, 
@@ -362,7 +365,7 @@
                                   22.f);
 }
 
-- (void)setBackgroundImage:(NSString *)background {
+- (void)setCustomBackgroundImage:(NSString *)background {
     _backgroundImage = [[UIImage imageNamed:background] stretchableImageWithLeftCapWidth:_backgroundStretch.x topCapHeight:_backgroundStretch.y];
     UIImageView *tBackground = [[UIImageView alloc] initWithFrame: CGRectMake(0.f, 
                                                                               0.f, 
