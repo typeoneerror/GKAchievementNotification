@@ -16,6 +16,7 @@
 - (void)animationInDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
 - (void)animationOutDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
 - (void)delegateCallback:(SEL)selector withObject:(id)object;
+- (CGRect)adjustedFrameEnd;
 
 @end
 
@@ -44,6 +45,15 @@
             [self.handlerDelegate performSelector:selector withObject:object];
         }
     }
+}
+
+- (CGRect)adjustedFrameEnd {
+    CGRect frameEnd = kGKAchievementFrameEnd;
+    UIApplication *application = [UIApplication sharedApplication];
+    if (!application.statusBarHidden) {
+        frameEnd.origin.y += application.statusBarFrame.size.height;
+    }
+    return frameEnd;
 }
 
 @end
@@ -174,7 +184,7 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
-    self.frame = kGKAchievementFrameEnd;
+    self.frame = [self adjustedFrameEnd];
     [UIView commitAnimations];
 }
 
