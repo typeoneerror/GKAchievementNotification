@@ -60,7 +60,13 @@ static GKAchievementHandler *defaultHandler = nil;
     self = [super init];
     if (self != nil)
     {
-        _topView = [[UIApplication sharedApplication] keyWindow];
+        UIWindow *w = [[UIApplication sharedApplication] keyWindow];
+        if ([w.subviews count] > 0) {
+            _topView = [w.subviews objectAtIndex:0];
+        } else {
+            _topView = w;
+        }
+	
         _queue = [[NSMutableArray alloc] initWithCapacity:0];
         self.image = [UIImage imageNamed:@"gk-icon.png"];
     }
