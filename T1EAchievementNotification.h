@@ -1,14 +1,13 @@
 //
-//  GKAchievementNotification.h
+//  T1EAchievementNotification.h
 //
 //  Created by Benjamin Borowski on 9/30/10.
 //  Copyright 2010 Typeoneerror Studios. All rights reserved.
-//  $Id$
 //
 
 #import <UIKit/UIKit.h>
 
-@class GKAchievementNotification;
+@class T1EAchievementNotification;
 
 #define kGKAchievementAnimeTime     0.4f
 #define kGKAchievementDisplayTime   1.75f
@@ -28,7 +27,7 @@
  * The handler delegate responds to hiding and showing
  * of the game center notifications.
  */
-@protocol GKAchievementHandlerDelegate <NSObject>
+@protocol T1EAchievementHandlerDelegate <NSObject>
 
 @optional
 
@@ -36,34 +35,34 @@
  * Called on delegate when notification is hidden.
  * @param nofification  The notification view that was hidden.
  */
-- (void)didHideAchievementNotification:(GKAchievementNotification *)notification;
+- (void)didHideAchievementNotification:(T1EAchievementNotification *)notification;
 
 /**
  * Called on delegate when notification is shown.
  * @param nofification  The notification view that was shown.
  */
-- (void)didShowAchievementNotification:(GKAchievementNotification *)notification;
+- (void)didShowAchievementNotification:(T1EAchievementNotification *)notification;
 
 /**
  * Called on delegate when notification is about to be hidden.
  * @param nofification  The notification view that will be hidden.
  */
-- (void)willHideAchievementNotification:(GKAchievementNotification *)notification;
+- (void)willHideAchievementNotification:(T1EAchievementNotification *)notification;
 
 /**
  * Called on delegate when notification is about to be shown.
  * @param nofification  The notification view that will be shown.
  */
-- (void)willShowAchievementNotification:(GKAchievementNotification *)notification;
+- (void)willShowAchievementNotification:(T1EAchievementNotification *)notification;
 
 @end
 
 #pragma mark -
 
 /**
- * The GKAchievementNotification is a view for showing the achievement earned.
+ * The T1EAchievementNotification is a view for showing the achievement earned.
  */
-@interface GKAchievementNotification : UIView
+@interface T1EAchievementNotification : UIView
 {
     GKAchievementDescription  *_achievement;  /**< Description of achievement earned. */
 
@@ -76,7 +75,7 @@
     UILabel      *_textLabel;    /**< Text label used to display achievement title. */
     UILabel      *_detailLabel;  /**< Text label used to display achievement description. */
 
-    id<GKAchievementHandlerDelegate> _handlerDelegate;  /**< Reference to nofification handler. */
+    id<T1EAchievementHandlerDelegate> _handlerDelegate;  /**< Reference to nofification handler. */
 }
 
 /** Description of achievement earned. */
@@ -94,7 +93,7 @@
 /** Text label used to display achievement description. */
 @property (nonatomic, retain) UILabel *detailLabel;
 /** Reference to nofification handler. */
-@property (nonatomic, retain) id<GKAchievementHandlerDelegate> handlerDelegate;
+@property (nonatomic, retain) id<T1EAchievementHandlerDelegate> handlerDelegate;
 
 #pragma mark -
 

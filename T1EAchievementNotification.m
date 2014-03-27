@@ -1,17 +1,16 @@
 //
-//  GKAchievementNotification.m
+//  T1EAchievementNotification.m
 //
 //  Created by Benjamin Borowski on 9/30/10.
 //  Copyright 2010 Typeoneerror Studios. All rights reserved.
-//  $Id$
 //
 
 #import <GameKit/GameKit.h>
-#import "GKAchievementNotification.h"
+#import "T1EAchievementNotification.h"
 
 #pragma mark -
 
-@interface GKAchievementNotification(private)
+@interface T1EAchievementNotification(private)
 
 - (void)animationInDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
 - (void)animationOutDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
@@ -21,7 +20,7 @@
 
 #pragma mark -
 
-@implementation GKAchievementNotification(private)
+@implementation T1EAchievementNotification(private)
 
 - (void)animationInDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
@@ -50,7 +49,7 @@
 
 #pragma mark -
 
-@implementation GKAchievementNotification
+@implementation T1EAchievementNotification
 
 @synthesize achievement=_achievement;
 @synthesize background=_background;
@@ -147,11 +146,11 @@
 
 - (void)dealloc
 {
-    NSLog(@"dealloc: GKAchievementNotification");
-    
+    NSLog(@"dealloc: T1EAchievementNotification");
+
     self.handlerDelegate = nil;
     self.logo = nil;
-    
+
     [_achievement release];
     [_background release];
     [_detailLabel release];
@@ -159,7 +158,7 @@
     [_message release];
     [_textLabel release];
     [_title release];
-    
+
     [super dealloc];
 }
 

@@ -1,24 +1,23 @@
 //
-//  GKAchievementHandler.h
+//  T1EAchievementHandler.h
 //
 //  Created by Benjamin Borowski on 9/30/10.
 //  Copyright 2010 Typeoneerror Studios. All rights reserved.
-//  $Id$
 //
 
 #import <Foundation/Foundation.h>
-#import "GKAchievementNotification.h"
+#import "T1EAchievementNotification.h"
 
 /**
- * Game Center has a notification window that slides down and informs the GKLocalPlayer 
- * that they've been authenticated. The GKAchievementNotification classes are a way to 
- * display achievements awarded to the player in the same manner; more similar to Xbox Live 
+ * Game Center has a notification window that slides down and informs the GKLocalPlayer
+ * that they've been authenticated. The T1EAchievementNotification classes are a way to
+ * display achievements awarded to the player in the same manner; more similar to Xbox Live
  * style achievement popups. The achievement dialogs are added to the UIWindow view of your application.
  *
- * The GKAchievementHandler is a singleton pattern that you can use to 
+ * The T1EAchievementHandler is a singleton pattern that you can use to
  * notify the user anywhere in your application that they earned an achievement.
  */
-@interface GKAchievementHandler : NSObject <GKAchievementHandlerDelegate>
+@interface T1EAchievementHandler : NSObject <T1EAchievementHandlerDelegate>
 {
     UIView         *_topView;  /**< Reference to top view of UIApplication. */
     NSMutableArray *_queue;    /**< Queue of achievement notifiers to display. */
@@ -29,10 +28,10 @@
 @property (nonatomic, retain) UIImage *image;
 
 /**
- * Returns a reference to the singleton GKAchievementHandler.
- * @return a single GKAchievementHandler.
+ * Returns a reference to the singleton T1EAchievementHandler.
+ * @return a single T1EAchievementHandler.
  */
-+ (GKAchievementHandler *)defaultHandler;
++ (T1EAchievementHandler *)defaultHandler;
 
 /**
  * Show an achievement notification with an actual achievement.
